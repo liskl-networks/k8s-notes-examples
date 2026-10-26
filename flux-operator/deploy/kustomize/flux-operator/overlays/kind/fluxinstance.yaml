@@ -1,0 +1,27 @@
+# Flux v2.9.6: operator v0.61.0 carries no newer 2.9, and there is no distribution.artifact to bring one.
+# Sync: this repo over anonymous HTTPS, the hub for the Git track.
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  distribution:
+    version: "2.9.x"
+    registry: ghcr.io/fluxcd
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    - notification-controller
+    - image-reflector-controller
+    - image-automation-controller
+  cluster:
+    type: kubernetes
+    size: small
+    networkPolicy: true
+  sync:
+    kind: GitRepository
+    url: https://github.com/liskl/k8s-notes-examples.git
+    ref: refs/heads/main
+    path: flux-operator/deploy/kustomize/cluster-manifests/overlays/kind

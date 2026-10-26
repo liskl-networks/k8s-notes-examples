@@ -1,0 +1,41 @@
+# As overlays/kind, but synced from the OCI artifact. The operator renders sync.ref as a tag, so the signature
+# check is a patch on the OCIRepository it renders (named after the namespace, flux-system): only an artifact
+# signed by this repo's publish workflow on main is applied.
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  distribution:
+    version: "2.9.x"
+    registry: ghcr.io/fluxcd
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    - notification-controller
+    - image-reflector-controller
+    - image-automation-controller
+  cluster:
+    type: kubernetes
+    size: small
+    networkPolicy: true
+  sync:
+    kind: OCIRepository
+    url: oci://ghcr.io/liskl/k8s-notes-examples/flux-operator
+    ref: latest
+    path: flux-operator/deploy/kustomize/cluster-manifests/overlays/kind-oci
+  kustomize:
+    patches:
+      - target:
+          kind: OCIRepository
+          name: flux-system
+        patch: |
+          - op: add
+            path: /spec/verify
+            value:
+              provider: cosign
+              matchOIDCIdentity:
+                - issuer: "^https://token\\.actions\\.githubusercontent\\.com$"
+                  subject: "^https://github\\.com/liskl/k8s-notes-examples/\\.github/workflows/flux-operator-publish\\.yaml@refs/heads/main$"

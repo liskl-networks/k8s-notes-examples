@@ -1,0 +1,8 @@
+# The operator and its FluxInstance on No. 00's kind lab, OCI track: the same folder of this repo, published as a
+# signed OCI artifact on ghcr.io by .github/workflows/flux-operator-publish.yaml.
+# kubectl apply --server-side -k flux-operator/deploy/kustomize/flux-operator/overlays/kind-oci
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../bases/v0.61.0
+  - fluxinstance.yaml
