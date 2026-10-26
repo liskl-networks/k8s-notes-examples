@@ -1,0 +1,13 @@
+# Every hub child reads the sync source the FluxInstance renders. On the OCI track that source is an
+# OCIRepository named flux-system, so an OCI hub is its Git twin plus this component. The artifact holds this
+# repo's flux-operator/ folder at the same path, so every spec.path stays as it is.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: replace
+        path: /spec/sourceRef/kind
+        value: OCIRepository
