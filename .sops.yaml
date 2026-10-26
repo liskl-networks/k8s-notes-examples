@@ -1,0 +1,7 @@
+# One rule a book. sops reads this file from the directory you run it in, or the nearest one above, so run sops
+# from the repository's root. Only data and stringData are encrypted, so a Secret's name stays readable.
+creation_rules:
+  # Field Guide 01: the lab-only key in flux-operator/sops/lab.agekey (public on purpose; read its header).
+  - path_regex: flux-operator/.*/secret-[^/]+\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1xutuedrq453ausz4v4p6mmgd5575h6y4axr85nlyrfen9ggnpudsqtasuw

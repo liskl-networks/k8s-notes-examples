@@ -1,0 +1,6 @@
+# LAB ONLY. This private key is public on purpose: it is here so every reader's kind lab can decrypt
+# Field Guide 01's examples with no setup. Anything encrypted to it is readable by anyone. Never encrypt a
+# real secret to it, and never commit your own key: make one with age-keygen and keep it out of Git.
+# created: 2026-10-26T19:40:19-04:00
+# public key: age1xutuedrq453ausz4v4p6mmgd5575h6y4axr85nlyrfen9ggnpudsqtasuw
+AGE-SECRET-KEY-1QJJN7Q44AAPTD4SLX6E7H2SGWA0FCR4PXM3EXXSEV7JPHWQ8ZJ6SA7R2R3

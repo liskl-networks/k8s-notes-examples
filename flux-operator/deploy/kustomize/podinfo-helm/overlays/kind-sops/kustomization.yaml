@@ -1,0 +1,20 @@
+# Chapter 8: podinfo-helm with part of its values in an encrypted Secret. Inline values win over valuesFrom,
+# so the overlay takes the inline message out; the Secret's message is the one that shows.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../kind
+  - secret-podinfo-values.yaml
+patches:
+  - target:
+      kind: HelmRelease
+      name: podinfo
+    patch: |
+      - op: add
+        path: /spec/valuesFrom
+        value:
+          - kind: Secret
+            name: podinfo-values
+            valuesKey: values.yaml
+      - op: remove
+        path: /spec/values/ui
