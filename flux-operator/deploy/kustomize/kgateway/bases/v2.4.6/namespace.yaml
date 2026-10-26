@@ -1,0 +1,7 @@
+# Made by No. 00's helm --create-namespace. Everything kgateway runs lives in it, so never prune it.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kgateway-system
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled

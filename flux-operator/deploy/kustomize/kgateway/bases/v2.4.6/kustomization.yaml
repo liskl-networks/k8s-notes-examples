@@ -1,0 +1,11 @@
+# kgateway v2.4.6 from its OCI charts, as No. 00 installed it with helm upgrade -i, now as two HelmReleases.
+# Each HelmRelease names the release No. 00 made (releaseName, storageNamespace), so helm-controller finds it
+# in storage and upgrades it in place instead of installing a second one.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - ocirepository-kgateway-crds.yaml
+  - ocirepository-kgateway.yaml
+  - helmrelease-kgateway-crds.yaml
+  - helmrelease-kgateway.yaml

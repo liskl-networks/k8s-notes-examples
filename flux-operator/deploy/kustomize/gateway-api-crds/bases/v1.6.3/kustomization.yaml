@@ -1,0 +1,9 @@
+# Gateway API v1.6.3, standard channel: the release's standard-install.yaml, unchanged (sha256 356c2b8e...7fe5),
+# the same file No. 00 applied by hand. Flux takes these CRDs over in place.
+# prune: disabled keeps them if this Kustomization is ever removed: deleting a CRD deletes every object of its kind.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - source/standard-install.yaml
+commonAnnotations:
+  kustomize.toolkit.fluxcd.io/prune: disabled

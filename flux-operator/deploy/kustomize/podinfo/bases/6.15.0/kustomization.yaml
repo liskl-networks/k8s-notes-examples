@@ -1,0 +1,7 @@
+# No. 00's podinfo: kubectl create namespace hello, kubectl apply -f podinfo.yaml, kubectl expose, now in Git.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml

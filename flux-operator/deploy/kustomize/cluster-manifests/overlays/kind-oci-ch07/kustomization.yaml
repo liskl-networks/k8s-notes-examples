@@ -1,0 +1,7 @@
+# The OCI track's hub for chapter 7: kind-ch07, every child reading the OCI artifact.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../kind-ch07
+components:
+  - ../../components/oci-source

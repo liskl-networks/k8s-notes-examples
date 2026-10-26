@@ -1,0 +1,9 @@
+# podinfo 6.15.0 from its OCI Helm chart, the same app version as No. 00's podinfo: a namespace of its own, the
+# chart as an OCIRepository (signature checked against podinfo's release workflow), and a HelmRelease in the same
+# namespace, so the release, its storage and its objects all live in podinfo-helm.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - ocirepository.yaml
+  - helmrelease.yaml

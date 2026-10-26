@@ -1,0 +1,25 @@
+# Values replace helm install --set. Drift detection compares the live objects with the release on every
+# reconcile and puts back anything changed by hand.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: podinfo
+  namespace: podinfo-helm
+spec:
+  interval: 1h
+  releaseName: podinfo
+  chartRef:
+    kind: OCIRepository
+    name: podinfo
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    replicaCount: 2
+    ui:
+      message: "Helm put this here, from an OCI chart."

@@ -1,0 +1,7 @@
+# Made by hand in No. 00, before Flux. Pruning a Namespace deletes everything in it, so Flux never prunes this one.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled

@@ -1,0 +1,20 @@
+# The chart is an OCI artifact too. The layer selector hands helm-controller the chart's tarball as is; verify
+# accepts only a chart signed by podinfo's own release workflow on a tag.
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: podinfo
+  namespace: podinfo-helm
+spec:
+  interval: 1h
+  url: oci://ghcr.io/stefanprodan/charts/podinfo
+  ref:
+    tag: 6.15.0
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  verify:
+    provider: cosign
+    matchOIDCIdentity:
+      - issuer: "^https://token\\.actions\\.githubusercontent\\.com$"
+        subject: "^https://github\\.com/stefanprodan/podinfo/\\.github/workflows/release\\.yml@refs/tags/.+$"

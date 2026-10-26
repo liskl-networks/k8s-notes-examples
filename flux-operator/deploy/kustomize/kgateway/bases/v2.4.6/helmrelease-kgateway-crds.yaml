@@ -1,0 +1,18 @@
+# The chart keeps its CRDs in templates/, so uninstalling this release would delete every GatewayParameters and
+# policy on the lab: prune: disabled keeps the release if this file ever leaves Git.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kgateway-crds
+  namespace: kgateway-system
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  interval: 1h
+  releaseName: kgateway-crds
+  storageNamespace: kgateway-system
+  chartRef:
+    kind: OCIRepository
+    name: kgateway-crds
+  install:
+    disableTakeOwnership: true
