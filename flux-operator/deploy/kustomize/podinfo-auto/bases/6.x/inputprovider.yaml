@@ -1,0 +1,13 @@
+# Asks ghcr.io for podinfo's chart tags every 10 minutes (the default) and keeps one: the highest 6.x. The
+# semver filter also keeps cosign's sha256-<digest> tags out. Each input is {id, tag, digest}.
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSetInputProvider
+metadata:
+  name: podinfo-chart
+  namespace: podinfo-auto
+spec:
+  type: OCIArtifactTag
+  url: oci://ghcr.io/stefanprodan/charts/podinfo
+  filter:
+    semver: "6.x"
+    limit: 1

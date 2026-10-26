@@ -1,0 +1,8 @@
+# podinfo kept on the newest 6.x chart without Git: an input provider watches the tags, a ResourceSet renders
+# the source and the release from what it finds.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - inputprovider.yaml
+  - resourceset.yaml

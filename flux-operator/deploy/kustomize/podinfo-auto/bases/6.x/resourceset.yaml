@@ -1,0 +1,50 @@
+# Chapter 5's podinfo, but the chart is whatever the input provider found: a new 6.x upstream reaches the
+# cluster with no commit. The source is pinned to the digest it saw, and the signature is still checked.
+# wait: the ResourceSet is Ready only once what it rendered is healthy (off by default).
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: podinfo
+  namespace: podinfo-auto
+spec:
+  wait: true
+  inputsFrom:
+    - kind: ResourceSetInputProvider
+      name: podinfo-chart
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: OCIRepository
+      metadata:
+        name: podinfo
+        namespace: podinfo-auto
+      spec:
+        interval: 1h
+        url: oci://ghcr.io/stefanprodan/charts/podinfo
+        ref:
+          digest: << inputs.digest | quote >>
+        layerSelector:
+          mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+          operation: copy
+        verify:
+          provider: cosign
+          matchOIDCIdentity:
+            - issuer: "^https://token\\.actions\\.githubusercontent\\.com$"
+              subject: "^https://github\\.com/stefanprodan/podinfo/\\.github/workflows/release\\.yml@refs/tags/.+$"
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: podinfo
+        namespace: podinfo-auto
+      spec:
+        interval: 1h
+        releaseName: podinfo
+        chartRef:
+          kind: OCIRepository
+          name: podinfo
+        upgrade:
+          remediation:
+            retries: 3
+        values:
+          replicaCount: 2
+          ui:
+            message: "Chart << inputs.tag >>, picked by a ResourceSetInputProvider. No commit."
