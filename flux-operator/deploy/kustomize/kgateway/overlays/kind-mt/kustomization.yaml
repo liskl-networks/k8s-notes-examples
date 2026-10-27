@@ -1,0 +1,13 @@
+# Chapter 12: kgateway as before, its two HelmReleases run as flux-platform.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../kind
+  - serviceaccount.yaml
+patches:
+  - target:
+      kind: HelmRelease
+    patch: |
+      - op: add
+        path: /spec/serviceAccountName
+        value: flux-platform

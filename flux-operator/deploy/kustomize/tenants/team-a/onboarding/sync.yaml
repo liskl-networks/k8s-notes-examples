@@ -1,0 +1,30 @@
+# The tenant's own pipeline, in the tenant's namespace: its own source (Flux does not let it read
+# flux-system's), and a Kustomization that runs as the tenant's ServiceAccount. Whatever the tenant
+# commits under apps/ is applied with team-a's rights and no more.
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: team-a
+  namespace: team-a
+spec:
+  interval: 10m
+  url: https://github.com/liskl/k8s-notes-examples.git
+  ref:
+    branch: main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: team-a-apps
+  namespace: team-a
+spec:
+  serviceAccountName: team-a
+  interval: 10m
+  retryInterval: 2m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: team-a
+  path: flux-operator/deploy/kustomize/tenants/team-a/apps
+  prune: true
+  wait: true

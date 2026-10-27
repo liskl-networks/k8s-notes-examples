@@ -12,3 +12,6 @@ patches:
       - op: replace
         path: /spec/sync/path
         value: flux-operator/deploy/kustomize/cluster-manifests/overlays/kind-ch13
+      - op: add
+        path: /spec/cluster/multitenant
+        value: true

@@ -1,0 +1,13 @@
+# Chapter 12 on: with cluster.multitenant: true, a Kustomization with no serviceAccountName runs as its
+# namespace's default ServiceAccount, which may do nothing. The platform's own children run as Flux's
+# kustomize-controller, on purpose; a tenant's Kustomization names the tenant's ServiceAccount.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: add
+        path: /spec/serviceAccountName
+        value: kustomize-controller

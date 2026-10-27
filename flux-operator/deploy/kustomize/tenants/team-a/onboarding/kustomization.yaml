@@ -1,0 +1,6 @@
+# Chapter 12: onboarding tenant team-a. The platform applies this; the tenant owns ../apps.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - tenant.yaml
+  - sync.yaml

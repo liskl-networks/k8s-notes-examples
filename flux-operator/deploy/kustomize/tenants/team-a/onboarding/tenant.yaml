@@ -1,0 +1,36 @@
+# What the platform gives a tenant: a namespace, an identity, and admin of that namespace only (a
+# RoleBinding to cluster-admin is still bound to one namespace). Made with: flux create tenant team-a
+# --with-namespace=team-a --export (Flux 2.10).
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    toolkit.fluxcd.io/tenant: team-a
+  name: team-a
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    toolkit.fluxcd.io/tenant: team-a
+  name: team-a
+  namespace: team-a
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    toolkit.fluxcd.io/tenant: team-a
+  name: team-a-reconciler
+  namespace: team-a
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: gotk:team-a:reconciler
+- kind: ServiceAccount
+  name: team-a
+  namespace: team-a

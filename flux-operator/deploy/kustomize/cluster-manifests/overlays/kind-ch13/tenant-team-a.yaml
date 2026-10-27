@@ -1,0 +1,17 @@
+# Chapter 12: onboarding tenant team-a (its namespace, identity, rights, source and Kustomization). The
+# platform runs this child; what team-a deploys is applied by team-a's own Kustomization, as team-a.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tenant-team-a
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: flux-operator/deploy/kustomize/tenants/team-a/onboarding
+  prune: true
+  wait: true

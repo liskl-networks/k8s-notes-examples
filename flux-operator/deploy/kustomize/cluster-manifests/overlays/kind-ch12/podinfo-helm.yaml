@@ -1,0 +1,20 @@
+# Chapter 12: chapter 8's child (decryption on), on the overlay that gives its HelmRelease its own identity.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: podinfo-helm
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: flux-operator/deploy/kustomize/podinfo-helm/overlays/kind-sops-mt
+  prune: true
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

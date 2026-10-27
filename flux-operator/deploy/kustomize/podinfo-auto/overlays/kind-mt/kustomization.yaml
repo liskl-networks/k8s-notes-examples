@@ -1,0 +1,14 @@
+# Chapter 12: chapter 9's podinfo-auto, the HelmRelease its ResourceSet renders run as flux-platform.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../kind
+  - serviceaccount.yaml
+patches:
+  - target:
+      kind: ResourceSet
+      name: podinfo
+    patch: |
+      - op: add
+        path: /spec/resources/1/spec/serviceAccountName
+        value: flux-platform

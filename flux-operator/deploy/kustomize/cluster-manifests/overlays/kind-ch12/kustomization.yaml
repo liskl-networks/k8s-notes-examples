@@ -1,0 +1,18 @@
+# Chapter 12: chapter 11's hub, multi-tenant: the platform runs as Flux, team-a as itself.
+# One Flux Kustomization a file, the file named after metadata.name. Order comes from dependsOn inside
+# each one, never from this list. Taking a line out of this list deletes what it deployed (prune: true).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - podinfo-helm.yaml
+  - gateway-api-crds.yaml
+  - kgateway.yaml
+  - gateway.yaml
+  - podinfo.yaml
+  - podinfo-auto.yaml
+  - podinfo-image.yaml
+  - sink.yaml
+  - notifications.yaml
+  - tenant-team-a.yaml
+components:
+  - ../../components/multitenant
