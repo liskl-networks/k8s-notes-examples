@@ -7,4 +7,4 @@ resources:
   - httproute.yaml
 images:
   - name: ghcr.io/stefanprodan/podinfo
-    newTag: 6.15.0 # {"$imagepolicy": "flux-system:podinfo-image:tag"}
+    newTag: 6.16.0 # {"$imagepolicy": "flux-system:podinfo-image:tag"}
