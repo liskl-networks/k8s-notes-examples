@@ -1,0 +1,10 @@
+# Where to send: the lab's echo sink. generic POSTs each event as JSON. v1 since Flux 2.10 (v1beta3 is still
+# served but deprecated; v1 drops Provider's interval and proxy, and Alert's summary).
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Provider
+metadata:
+  name: sink
+  namespace: flux-system
+spec:
+  type: generic
+  address: http://echo.sink.svc.cluster.local:8080/

@@ -1,0 +1,7 @@
+# flux-operator v0.62.0, exactly as released: source/install.yaml is the release's install.yaml
+# (sha256 3df93acde772a51560e4563e13e4f2b2c0b88ae5433367b85adebc9c87494835, in the release's checksums file).
+# An upgrade is a new bases/<version>/ folder and one line in each overlay.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - source/install.yaml

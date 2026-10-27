@@ -1,6 +1,6 @@
 # What to send: every event, info and error, from the objects this book deploys. An Alert reads one
 # namespace per entry, so each namespace with something in it gets a line.
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Alert
 metadata:
   name: lab

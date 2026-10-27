@@ -1,4 +1,4 @@
-# Flux v2.9.6: operator v0.61.0 carries no newer 2.9, and there is no distribution.artifact to bring one.
+# Flux 2.10.x: the highest 2.10 that operator v0.62.0 carries (2.10.0 when it was released).
 # Sync: this repo over anonymous HTTPS, the hub for the Git track.
 apiVersion: fluxcd.controlplane.io/v1
 kind: FluxInstance
@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   distribution:
-    version: "2.9.x"
+    version: "2.10.x"
     registry: ghcr.io/fluxcd
   components:
     - source-controller
