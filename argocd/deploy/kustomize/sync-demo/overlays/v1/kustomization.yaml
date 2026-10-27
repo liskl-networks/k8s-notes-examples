@@ -1,0 +1,15 @@
+# Chapter 6: the sync-demo Application's first source. Two ConfigMaps in namespace sync-demo (the Application
+# creates the namespace with CreateNamespace=true). v2 drops one, broken adds one the API server refuses, empty
+# renders nothing: switching the Application's path between them is how the chapter makes a new revision.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: sync-demo
+configMapGenerator:
+  - name: one
+    literals:
+      - "message=version one"
+  - name: two
+    literals:
+      - "message=version one"
+generatorOptions:
+  disableNameSuffixHash: true

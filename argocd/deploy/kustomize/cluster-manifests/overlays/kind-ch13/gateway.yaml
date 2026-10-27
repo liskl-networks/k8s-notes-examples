@@ -1,0 +1,23 @@
+# No. 00's Gateway http and its GatewayParameters: the door every chapter uses.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gateway
+  namespace: argocd
+  labels:
+    k8s-notes.liskl.com/source: examples   # the OCI track's Component rewrites repoURL on these
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/gateway/overlays/kind
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kgateway-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,4 @@
+# Chapter 9: values for the podinfo chart, read from Git by the podinfo-helm Application ($values/...).
+replicaCount: 2
+ui:
+  message: "Helm rendered this, and Argo CD applied it."

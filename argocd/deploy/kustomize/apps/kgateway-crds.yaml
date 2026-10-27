@@ -1,0 +1,23 @@
+# Chapter 10: No. 00's Helm release kgateway-crds, rendered by Argo CD. ServerSideApply=true: the
+# gatewayparameters CRD is too big for a client-side apply. Manual, no finalizer.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kgateway-crds
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/compare-options: ServerSideDiff=true   # with ServerSideApply=true, or defaulted fields read OutOfSync
+spec:
+  project: default
+  source:
+    repoURL: cr.kgateway.dev/kgateway-dev/charts   # no scheme: an OCI Helm repository, no Secret
+    chart: kgateway-crds
+    targetRevision: v2.4.6
+    helm:
+      releaseName: kgateway-crds   # No. 00's release name, so object names match
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kgateway-system
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true

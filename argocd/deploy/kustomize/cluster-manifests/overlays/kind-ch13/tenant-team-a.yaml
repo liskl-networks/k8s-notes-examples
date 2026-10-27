@@ -1,0 +1,46 @@
+# Chapter 12: tenant team-a. Its Namespace, its AppProject, and one Application in the project.
+# The project allows the examples repo on both tracks, the team-a namespace on this cluster, and no
+# cluster-scoped objects at all.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-a
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: team-a
+  namespace: argocd
+spec:
+  description: Team A's apps, in namespace team-a only
+  sourceRepos:
+    - https://github.com/liskl/k8s-notes-examples.git
+    - oci://ghcr.io/liskl/k8s-notes-examples/argocd
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: team-a
+  clusterResourceWhitelist: []
+---
+# team-a's own app. alice may get and sync it (argocd-rbac-cm), nothing else.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: team-a-hello
+  namespace: argocd
+  labels:
+    k8s-notes.liskl.com/source: examples   # the OCI track's Component rewrites repoURL on these
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground   # deleting the app deletes what it made
+spec:
+  project: team-a
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/tenants/team-a/hello
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: team-a
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

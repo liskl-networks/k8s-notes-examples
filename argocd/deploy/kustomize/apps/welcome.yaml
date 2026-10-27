@@ -1,0 +1,21 @@
+# Chapter 4: the first Application, applied by hand: kubectl apply -f apps/welcome.yaml
+# No syncPolicy, so nothing happens until someone syncs it: argocd app sync welcome
+# Chapter 6's root takes the same Application over and turns on automated sync.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: welcome
+  namespace: argocd
+  labels:
+    k8s-notes.liskl.com/source: examples   # the OCI track's Component rewrites repoURL on these
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground   # deleting the app deletes what it made
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/welcome/overlays/kind
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: welcome

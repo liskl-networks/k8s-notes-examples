@@ -1,0 +1,27 @@
+# No. 00's Gateway API v1.6.3 CRDs. Argo CD never tracks or deletes a CRD; they are too big for a client-side
+# apply, so ServerSideApply=true.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gateway-api-crds
+  namespace: argocd
+  labels:
+    k8s-notes.liskl.com/source: examples   # the OCI track's Component rewrites repoURL on these
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/compare-options: ServerSideDiff=true   # with ServerSideApply=true, or defaulted fields read OutOfSync
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/gateway-api-crds/bases/v1.6.3
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kgateway-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true

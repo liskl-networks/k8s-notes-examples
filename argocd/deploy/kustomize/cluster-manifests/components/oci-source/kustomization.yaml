@@ -1,0 +1,14 @@
+# The OCI track. Every child labelled k8s-notes.liskl.com/source: examples reads the same files from the OCI artifact
+# instead of Git: the artifact holds this repo's argocd/ folder at the same path, and its tags have the Git tags'
+# names, so only repoURL changes. Children without the label (Helm charts, multi-source) keep their sources.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      group: argoproj.io
+      kind: Application
+      labelSelector: k8s-notes.liskl.com/source=examples
+    patch: |
+      - op: replace
+        path: /spec/source/repoURL
+        value: oci://ghcr.io/liskl/k8s-notes-examples/argocd

@@ -1,0 +1,5 @@
+# Chapter 8: a Gateway that no controller has claimed reads Degraded, not Progressing for ever.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - path: argocd-cm.yaml

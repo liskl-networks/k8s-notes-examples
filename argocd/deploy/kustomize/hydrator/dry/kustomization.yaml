@@ -1,0 +1,14 @@
+# Chapter 13: the Source Hydrator's dry source. Argo CD renders this folder and commits the result, as plain
+# YAML, to the branch argocd-hydrated; the Application then syncs from there. Plain manifests only: a chart
+# with random values would make a new commit every time.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: hydrated
+resources:
+  - namespace.yaml
+configMapGenerator:
+  - name: hydrated
+    literals:
+      - "message=rendered once by Argo CD, committed to Git, then synced"
+generatorOptions:
+  disableNameSuffixHash: true

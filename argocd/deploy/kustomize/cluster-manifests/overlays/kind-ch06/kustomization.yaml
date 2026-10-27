@@ -1,0 +1,7 @@
+# Chapter 6: the first hub. The root Application applies every file here; one Application a file, the file
+# named after metadata.name. Taking a line out deletes that Application (the root prunes), and its
+# resources finalizer deletes what it made.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - welcome.yaml

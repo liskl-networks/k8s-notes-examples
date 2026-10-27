@@ -1,0 +1,6 @@
+# Made by hand in No. 00 (kubectl create namespace hello). Nothing here that the live Namespace lacks, so taking it
+# over shows only Argo CD's tracking annotation.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello

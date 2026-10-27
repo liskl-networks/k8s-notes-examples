@@ -1,0 +1,14 @@
+# Chapter 10: chapter 6's hub plus No. 00's lab and Argo CD itself. The Applications podinfo, kgateway-crds
+# and kgateway that chapter 10 made by hand are taken over here, same names, now automated. Order comes
+# from each child's sync-wave, and the root waits for each wave's Applications to be Healthy (the
+# Application health check in argocd/components/self).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - argocd.yaml
+  - gateway-api-crds.yaml
+  - kgateway-crds.yaml
+  - kgateway.yaml
+  - gateway.yaml
+  - podinfo.yaml
+  - welcome.yaml

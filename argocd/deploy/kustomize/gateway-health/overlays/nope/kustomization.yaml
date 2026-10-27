@@ -1,0 +1,8 @@
+# Chapter 8: a Gateway no controller claims (class nope) in wave 1, a ConfigMap in wave 2. Without a sync timeout
+# the sync waits on the Gateway for ever; with chapter 8's health check it fails instead.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gw-health
+resources:
+  - gateway.yaml
+  - after.yaml

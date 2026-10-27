@@ -1,0 +1,13 @@
+# Chapter 12: chapter 10's hub plus tenant team-a, and Argo CD on argocd/overlays/kind-ch12 (alice and her
+# RBAC).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - argocd.yaml
+  - gateway-api-crds.yaml
+  - kgateway-crds.yaml
+  - kgateway.yaml
+  - gateway.yaml
+  - podinfo.yaml
+  - welcome.yaml
+  - tenant-team-a.yaml

@@ -1,0 +1,31 @@
+# Chapter 9: the podinfo chart from ghcr.io, rendered by Argo CD with helm template. No Helm release is made:
+# helm ls -n podinfo-helm stays empty. The values come from Git through a second source. Not labelled for the
+# OCI track: its sources are a chart and a ref, not the examples artifact.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: podinfo-helm
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground   # deleting the app deletes what it made
+spec:
+  project: default
+  sources:
+    - repoURL: ghcr.io/stefanprodan/charts   # no scheme: an OCI Helm repository
+      chart: podinfo
+      targetRevision: 6.15.0
+      helm:
+        releaseName: podinfo
+        valueFiles:
+          - $values/argocd/deploy/kustomize/podinfo-helm/values/kind.yaml
+    - repoURL: https://github.com/liskl/k8s-notes-examples.git
+      targetRevision: argocd-1.0
+      ref: values   # a ref source is read with the Git client only, on both tracks
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: podinfo-helm
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

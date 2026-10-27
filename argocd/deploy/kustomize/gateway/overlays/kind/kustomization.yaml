@@ -1,0 +1,8 @@
+# No. 00's Gateway: one HTTP listener on port 80, its Envoy Service on NodePort 30080, which kind maps to
+# 127.0.0.1:8080. The deployer's Deployment, Service and ServiceAccount named http belong to the Gateway by owner
+# references and are not in Git.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - gatewayparameters.yaml
+  - gateway.yaml

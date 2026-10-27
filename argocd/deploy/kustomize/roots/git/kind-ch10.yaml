@@ -1,0 +1,22 @@
+# Chapter 10, GIT track: the root Application, one per lab, applied by hand at the start of the chapter:
+#   kubectl apply -f argocd/deploy/kustomize/roots/git/kind-ch10.yaml
+# It syncs the chapter's hub, one child Application a file. No finalizer: deleting the root leaves everything
+# it made. roots/oci/kind-ch10.yaml is the same Application on the other track.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/cluster-manifests/overlays/kind-ch10
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

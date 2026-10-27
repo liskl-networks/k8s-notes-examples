@@ -1,0 +1,35 @@
+# Chapter 11: the Git directories generator. One Application per folder under fleet/, on this cluster; a new
+# folder in Git becomes a new Application within 3 minutes (or at once on a webhook).
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: git
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/liskl/k8s-notes-examples.git
+        revision: argocd-1.0
+        directories:
+          - path: argocd/deploy/kustomize/fleet/*
+  template:
+    metadata:
+      name: 'git-{{.path.basename}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io/foreground
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/liskl/k8s-notes-examples.git
+        targetRevision: argocd-1.0
+        path: '{{.path.path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'fleet-{{.path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+          - CreateNamespace=true

@@ -1,0 +1,35 @@
+# Chapter 11: the cluster generator. One Application per cluster Secret that carries the label below. Any
+# selector leaves out in-cluster, which has no Secret; an empty one (clusters: {}) would add it, last.
+# Changing the selector deletes the Applications that drop out, and what they made (they carry the finalizer).
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: clusters
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            k8s-notes.liskl.com/fleet: lab
+  template:
+    metadata:
+      name: 'clusters-{{.name}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io/foreground
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/liskl/k8s-notes-examples.git
+        targetRevision: argocd-1.0
+        path: argocd/deploy/kustomize/fleet/two
+      destination:
+        server: '{{.server}}'
+        namespace: fleet-clusters
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+          - CreateNamespace=true

@@ -1,0 +1,10 @@
+# Chapter 12: team-a's app. Namespaced objects only, in team-a: the project allows nothing else.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: team-a
+configMapGenerator:
+  - name: hello
+    literals:
+      - "message=team-a deployed this, inside its own project"
+generatorOptions:
+  disableNameSuffixHash: true

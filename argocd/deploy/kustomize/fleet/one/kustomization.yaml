@@ -1,0 +1,9 @@
+# Chapter 11: a target for the ApplicationSets. No namespace here: each generated Application names its own.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configMapGenerator:
+  - name: fleet
+    literals:
+      - "message=fleet/one, from an ApplicationSet"
+generatorOptions:
+  disableNameSuffixHash: true

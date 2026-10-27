@@ -1,0 +1,8 @@
+# Chapter 8: one sync in order. PreSync hook, then waves -1, 0, 1, 2 (2 s apart, each waiting for the last to be
+# Healthy), then the PostSync hook.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - hooks.yaml
+  - app.yaml

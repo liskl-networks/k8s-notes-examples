@@ -1,0 +1,36 @@
+# Chapter 11: the list generator. One Application per element; the clusters must already be known to Argo CD
+# (in-cluster always is; lab2 once its cluster Secret exists). Applied by hand: kubectl apply -f appsets/list.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: list
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - cluster: in-cluster
+            server: https://kubernetes.default.svc
+          - cluster: lab2
+            server: https://lab2-control-plane:6443
+  template:
+    metadata:
+      name: 'list-{{.cluster}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io/foreground
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/liskl/k8s-notes-examples.git
+        targetRevision: argocd-1.0
+        path: argocd/deploy/kustomize/fleet/one
+      destination:
+        server: '{{.server}}'
+        namespace: fleet-list
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+          - CreateNamespace=true

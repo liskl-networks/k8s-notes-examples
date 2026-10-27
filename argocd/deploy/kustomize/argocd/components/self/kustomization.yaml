@@ -1,0 +1,8 @@
+# Chapter 10: what Argo CD needs once it manages itself. The argocd Namespace is never pruned or deleted by the
+# Application that manages it, and child Applications get a health check, so a root's sync waves wait for each
+# child to be Healthy before the next wave starts.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - path: argocd-cm.yaml
+  - path: namespace.yaml
