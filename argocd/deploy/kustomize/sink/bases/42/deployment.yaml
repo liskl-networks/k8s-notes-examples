@@ -1,5 +1,6 @@
-# Where Argo CD's notifications land on the lab: an HTTP echo that logs every request, body included, as one JSON
-# line. Read them with: kubectl -n sink logs deploy/echo
+# Where Argo CD's notifications land on the lab: an HTTP echo that logs every request as pretty-printed JSON (its
+# "json" block is the body it was sent), then one access line. Read them with:
+#   kubectl -n sink logs deploy/echo | grep 'POST /argocd'        and        ... | grep -A4 '"json"'
 apiVersion: apps/v1
 kind: Deployment
 metadata:
