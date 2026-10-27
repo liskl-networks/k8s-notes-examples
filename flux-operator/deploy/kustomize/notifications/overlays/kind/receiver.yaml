@@ -1,0 +1,16 @@
+# The other direction: a POST to /hook/<sha256(token + name + namespace)>, signed with the token, makes Flux
+# fetch the sync source now instead of at its next interval. The token is in secret-lab-hook.yaml, encrypted
+# to the book's lab key (chapter 8).
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: lab-hook
+  namespace: flux-system
+spec:
+  type: generic-hmac
+  secretRef:
+    name: lab-hook
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      name: flux-system

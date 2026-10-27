@@ -1,0 +1,16 @@
+# Chapter 11: an in-cluster HTTP echo for Flux's notifications to land on.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: sink
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: flux-operator/deploy/kustomize/sink/overlays/kind
+  prune: true
+  wait: true

@@ -1,0 +1,24 @@
+# Chapter 11: the Alert and Provider (to the sink) and the Receiver (from your curl). After the gateway, for
+# the Receiver's HTTPRoute; decryption for its token, with the lab key from chapter 8.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: notifications
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: gateway
+    - name: sink
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: flux-operator/deploy/kustomize/notifications/overlays/kind
+  prune: true
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

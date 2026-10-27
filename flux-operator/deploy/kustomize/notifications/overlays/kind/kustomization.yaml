@@ -1,0 +1,8 @@
+# Chapter 11 on the Git track: the Alert and Provider, and a Receiver that pokes the GitRepository.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../bases/v1beta3
+  - secret-lab-hook.yaml
+  - receiver.yaml
+  - httproute.yaml
