@@ -1,0 +1,20 @@
+# Chapter 12: chapter 11's notifications on a multi-tenant cluster. The Alert in flux-system keeps only what is
+# in flux-system (the others would be dropped, with a line in notification-controller's log and nothing else);
+# alerts.yaml adds an Alert and a Provider in each namespace that has releases.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../kind
+  - alerts.yaml
+patches:
+  - target:
+      kind: Alert
+      name: lab
+      namespace: flux-system
+    patch: |
+      - op: remove
+        path: /spec/eventSources/4
+      - op: remove
+        path: /spec/eventSources/3
+      - op: remove
+        path: /spec/eventSources/2

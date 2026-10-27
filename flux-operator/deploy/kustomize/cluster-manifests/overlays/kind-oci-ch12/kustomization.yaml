@@ -12,4 +12,4 @@ patches:
     patch: |
       - op: replace
         path: /spec/path
-        value: flux-operator/deploy/kustomize/notifications/overlays/kind-oci
+        value: flux-operator/deploy/kustomize/notifications/overlays/kind-oci-mt

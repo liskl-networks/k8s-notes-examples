@@ -1,0 +1,47 @@
+# With cross-namespace references blocked, an Alert hears only its own namespace: each namespace with
+# releases gets its own Provider and Alert, to the same sink.
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Provider
+metadata:
+  name: sink
+  namespace: podinfo-helm
+spec:
+  type: generic
+  address: http://echo.sink.svc.cluster.local:8080/
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Alert
+metadata:
+  name: lab
+  namespace: podinfo-helm
+spec:
+  providerRef:
+    name: sink
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRelease
+      name: "*"
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Provider
+metadata:
+  name: sink
+  namespace: podinfo-auto
+spec:
+  type: generic
+  address: http://echo.sink.svc.cluster.local:8080/
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Alert
+metadata:
+  name: lab
+  namespace: podinfo-auto
+spec:
+  providerRef:
+    name: sink
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRelease
+      name: "*"
+    - kind: ResourceSet
+      name: "*"
