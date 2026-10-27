@@ -1,9 +1,13 @@
 # Argo CD v3.5.6, exactly as released: source/install.yaml is manifests/install.yaml at the tag v3.5.6
 # (commit c2b1e3017e2c), sha256 846c644bc81ce5557dd9048757a9c7353378f25c5eb811c77d32a9e907823599.
 # Argo CD is Apache-2.0: https://github.com/argoproj/argo-cd/blob/v3.5.6/LICENSE
-# Its namespaced objects carry no namespace; the overlay that uses this base sets namespace: argocd.
+# install.yaml has no Namespace and no metadata.namespace, and its ClusterRoleBindings name ServiceAccounts in
+# argocd, so this base adds both. Apply it server-side: the ApplicationSet CRD is too big for a client-side apply.
+#   kubectl apply --server-side --force-conflicts -k argocd/deploy/kustomize/argocd/bases/v3.5.6
 # An upgrade is a new bases/<version>/ folder and one line in each overlay.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: argocd
 resources:
+  - namespace.yaml
   - source/install.yaml

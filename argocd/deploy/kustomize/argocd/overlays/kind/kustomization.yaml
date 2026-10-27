@@ -1,8 +1,11 @@
-# Argo CD on No. 00's kind lab: the v3.5.6 install in namespace argocd, applied by hand once:
-#   kubectl apply --server-side -k argocd/deploy/kustomize/argocd/overlays/kind
+# Argo CD on No. 00's kind lab, behind the lab's Gateway: the v3.5.6 base, plain HTTP inside the cluster
+# (kgateway's listener speaks HTTP), and an HTTPRoute for argocd.localhost. Applied by hand in chapter 3:
+#   kubectl apply --server-side --force-conflicts -k argocd/deploy/kustomize/argocd/overlays/kind
+#   kubectl -n argocd rollout restart deployment argocd-server     # server.insecure is read at start
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: argocd
 resources:
-  - namespace.yaml
   - ../../bases/v3.5.6
+  - httproute.yaml
+patches:
+  - path: cmd-params.yaml
