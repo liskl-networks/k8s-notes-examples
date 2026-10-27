@@ -1,0 +1,14 @@
+# Chapter 2: the operator and a FluxInstance with no sync yet: Flux installed, reading nothing. Chapter 3
+# adds the sync (overlays/kind).
+# kubectl apply --server-side -k flux-operator/deploy/kustomize/flux-operator/overlays/kind-ch02
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../kind
+patches:
+  - target:
+      kind: FluxInstance
+      name: flux
+    patch: |
+      - op: remove
+        path: /spec/sync
