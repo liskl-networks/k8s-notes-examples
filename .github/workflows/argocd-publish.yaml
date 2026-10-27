@@ -1,0 +1,54 @@
+# Publishes the argocd/ folder as an OCI artifact on ghcr.io, signed keyless with cosign, for the OCI track of
+# Field Guide 02. oras packs the folder as one tar+gzip layer (application/vnd.oci.image.layer.v1.tar+gzip), the
+# only kind of layer Argo CD's repo-server takes by default, and the layer unpacks to argocd/..., so every path is
+# the same in both tracks. (Field Guide 01's flux push artifact writes Flux's own layer type, which Argo CD refuses.)
+#
+#   ghcr.io/liskl/k8s-notes-examples/argocd:<short sha>   one tag a run
+#   ghcr.io/liskl/k8s-notes-examples/argocd:latest        moved to the newest push to main
+#   ghcr.io/liskl/k8s-notes-examples/argocd:argocd-1.0    a Git tag argocd-* gets the same name here, so the
+#                                                         two tracks pin the same string
+#
+# Argo CD checks no signature. The book checks it by hand with cosign, against this file at the ref that ran it:
+#   https://github.com/liskl/k8s-notes-examples/.github/workflows/argocd-publish.yaml@refs/tags/argocd-1.0
+name: argocd-publish
+on:
+  push:
+    branches: [main]
+    tags: ['argocd-*']   # GitHub does not apply the paths filter to tag pushes, so every argocd-* tag publishes
+    paths:
+      - 'argocd/**'
+      - '.github/workflows/argocd-publish.yaml'
+  workflow_dispatch: {}
+concurrency:
+  group: argocd-publish
+  cancel-in-progress: false
+permissions:
+  contents: read
+  packages: write   # push to ghcr.io with the workflow's GITHUB_TOKEN
+  id-token: write   # the GitHub OIDC token cosign signs with (keyless)
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: ghcr.io/${{ github.repository }}/argocd
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oras-project/setup-oras@005458ad77f1c8facd38a094e4af2e69e5607ff4 # v2.0.2
+        with:
+          version: 1.3.4
+      - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - name: Log in to ghcr.io (oras and cosign share the credentials)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$TOKEN" | oras login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+      - name: Push, sign, then tag
+        run: |
+          tag="${GITHUB_SHA::7}"
+          ref=$(oras push "$IMAGE:$tag" argocd \
+            --annotation "org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY}" \
+            --annotation "org.opencontainers.image.revision=${GITHUB_REF_NAME}@sha1:${GITHUB_SHA}" \
+            --format go-template --template '{{.reference}}')
+          echo "pushed $ref"
+          cosign sign --yes "$ref"
+          # a moving tag only ever names a signed digest
+          if [ "$GITHUB_REF_TYPE" = tag ]; then oras tag "$IMAGE:$tag" "$GITHUB_REF_NAME"; else oras tag "$IMAGE:$tag" latest; fi

@@ -1,0 +1,8 @@
+# Every key here reaches its Pod as an environment variable, so a change needs a rollout restart.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmd-params-cm
+  namespace: argocd
+data:
+  server.insecure: "true"   # argocd-server serves plain HTTP; without it every request gets a 307 to https://
