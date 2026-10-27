@@ -1,0 +1,15 @@
+# Chapter 13: chapter 11's hub plus the operator's Web UI on the lab's door.
+# One Flux Kustomization a file, the file named after metadata.name. Order comes from dependsOn inside
+# each one, never from this list. Taking a line out of this list deletes what it deployed (prune: true).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - podinfo-helm.yaml
+  - gateway-api-crds.yaml
+  - kgateway.yaml
+  - gateway.yaml
+  - podinfo.yaml
+  - podinfo-auto.yaml
+  - sink.yaml
+  - notifications.yaml
+  - flux-ui.yaml

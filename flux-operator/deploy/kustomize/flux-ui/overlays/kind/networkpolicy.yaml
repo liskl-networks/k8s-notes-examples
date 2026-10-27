@@ -1,0 +1,24 @@
+# flux-system admits only what the operator's own policies allow, and they do not open 9080. Without this,
+# the route is Accepted and Programmed but Envoy times out (503). Only the Gateway's proxy pods get in.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-flux-ui
+  namespace: flux-system
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: flux-operator
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kgateway-system
+          podSelector:
+            matchLabels:
+              gateway.networking.k8s.io/gateway-name: http
+      ports:
+        - protocol: TCP
+          port: 9080

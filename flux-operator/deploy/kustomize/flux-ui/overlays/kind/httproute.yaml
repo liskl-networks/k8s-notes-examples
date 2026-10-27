@@ -1,0 +1,17 @@
+# The operator's Web UI through No. 00's Gateway: http://flux.localhost:8080/. With no authentication block
+# it is read-only, as the operator's own ServiceAccount: fine on a laptop lab, never on a shared Gateway.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: flux-ui
+  namespace: flux-system
+spec:
+  parentRefs:
+    - name: http
+      namespace: kgateway-system
+  hostnames:
+    - flux.localhost
+  rules:
+    - backendRefs:
+        - name: flux-operator
+          port: 9080

@@ -1,0 +1,15 @@
+# The OCI track's hub for chapter 13: kind-ch13, every child reading the OCI artifact.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../kind-ch13
+components:
+  - ../../components/oci-source
+patches:
+  - target:
+      kind: Kustomization
+      name: notifications
+    patch: |
+      - op: replace
+        path: /spec/path
+        value: flux-operator/deploy/kustomize/notifications/overlays/kind-oci

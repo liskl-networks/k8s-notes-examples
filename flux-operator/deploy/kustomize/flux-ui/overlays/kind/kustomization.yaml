@@ -1,0 +1,6 @@
+# Chapter 13: the operator's Web UI on the lab's door.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - httproute.yaml
+  - networkpolicy.yaml
