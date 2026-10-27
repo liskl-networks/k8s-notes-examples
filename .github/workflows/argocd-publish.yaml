@@ -1,10 +1,10 @@
 # Publishes the argocd/ folder as an OCI artifact on ghcr.io, signed keyless with cosign, for the OCI track of
-# Field Guide 02. oras packs the folder as one tar+gzip layer (application/vnd.oci.image.layer.v1.tar+gzip), the
-# only kind of layer Argo CD's repo-server takes by default, and the layer unpacks to argocd/..., so every path is
+# Field Guide 02. oras packs the folder as one tar+gzip layer (application/vnd.oci.image.layer.v1.tar+gzip), one of
+# the three layer types Argo CD's repo-server takes by default, and the layer unpacks to argocd/..., so every path is
 # the same in both tracks. (Field Guide 01's flux push artifact writes Flux's own layer type, which Argo CD refuses.)
 #
-#   ghcr.io/liskl/k8s-notes-examples/argocd:<short sha>   one tag a run
-#   ghcr.io/liskl/k8s-notes-examples/argocd:latest        moved to the newest push to main
+#   ghcr.io/liskl/k8s-notes-examples/argocd:<short sha>   one tag a push to main
+#   ghcr.io/liskl/k8s-notes-examples/argocd:latest        moved to the newest one, once it is signed
 #   ghcr.io/liskl/k8s-notes-examples/argocd:argocd-1.0    a Git tag argocd-* gets the same name here, so the
 #                                                         two tracks pin the same string
 #
@@ -41,14 +41,15 @@ jobs:
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo "$TOKEN" | oras login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
-      - name: Push, sign, then tag
+      - name: Push and sign
         run: |
-          tag="${GITHUB_SHA::7}"
+          # A push to main gets its short sha, and latest moves to it once it is signed. A Git tag gets a tag of
+          # the same name and nothing else, so a tag run never rewrites the short sha tag of the main run before it.
+          if [ "$GITHUB_REF_TYPE" = tag ]; then tag=$GITHUB_REF_NAME; else tag="${GITHUB_SHA::7}"; fi
           ref=$(oras push "$IMAGE:$tag" argocd \
             --annotation "org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY}" \
             --annotation "org.opencontainers.image.revision=${GITHUB_REF_NAME}@sha1:${GITHUB_SHA}" \
             --format go-template --template '{{.reference}}')
           echo "pushed $ref"
           cosign sign --yes "$ref"
-          # a moving tag only ever names a signed digest
-          if [ "$GITHUB_REF_TYPE" = tag ]; then oras tag "$IMAGE:$tag" "$GITHUB_REF_NAME"; else oras tag "$IMAGE:$tag" latest; fi
+          if [ "$GITHUB_REF_TYPE" != tag ]; then oras tag "$IMAGE:$tag" latest; fi
