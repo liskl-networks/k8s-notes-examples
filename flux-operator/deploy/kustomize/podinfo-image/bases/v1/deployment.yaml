@@ -1,0 +1,22 @@
+# podinfo again, its image tag written by Flux's image automation (the overlay's images: line), not by hand.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podinfo
+  namespace: podinfo-image
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: podinfo
+  template:
+    metadata:
+      labels:
+        app: podinfo
+    spec:
+      containers:
+        - name: podinfo
+          image: ghcr.io/stefanprodan/podinfo
+          ports:
+            - name: http
+              containerPort: 9898

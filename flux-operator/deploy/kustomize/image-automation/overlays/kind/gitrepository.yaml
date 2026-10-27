@@ -1,0 +1,14 @@
+# A second view of this repo, over SSH with a key that may push: the sync source reads anonymously and
+# cannot write. Its key is the Secret examples-write, made by hand (flux create secret git), never in Git.
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: examples-write
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: ssh://git@github.com/liskl/k8s-notes-examples
+  ref:
+    branch: main
+  secretRef:
+    name: examples-write

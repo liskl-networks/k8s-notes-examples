@@ -1,0 +1,33 @@
+# Writes the policy's pick into every marked line under update.path, commits, and pushes to main. Same
+# namespace as the ImagePolicy: a marker naming a policy in another namespace is silently ignored.
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageUpdateAutomation
+metadata:
+  name: podinfo-image
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: examples-write
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        name: fluxcdbot
+        email: fluxcdbot@users.noreply.github.com
+      messageTemplate: |
+        flux-operator: podinfo-image, by Flux's image automation
+
+        {{ range $resource, $changes := .Changed.Objects -}}
+        {{ range $_, $change := $changes -}}
+        {{ $resource.Kind }}/{{ $resource.Name }}: {{ $change.OldValue }} -> {{ $change.NewValue }}
+        {{ end -}}
+        {{ end -}}
+    push:
+      branch: main
+  update:
+    path: ./flux-operator/deploy/kustomize/podinfo-image/overlays/kind
+    strategy: Setters

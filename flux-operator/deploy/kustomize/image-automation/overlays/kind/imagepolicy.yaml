@@ -1,0 +1,13 @@
+# Picks the highest tag in a closed range, so the lab's result stays the same until podinfo ships a 6.16
+# patch. Git starts the app at 6.15.0, so there is something to change.
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: podinfo-image
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: podinfo-image
+  policy:
+    semver:
+      range: 6.16.x

@@ -10,6 +10,7 @@ resources:
   - gateway.yaml
   - podinfo.yaml
   - podinfo-auto.yaml
+  - podinfo-image.yaml
   - sink.yaml
   - notifications.yaml
   - flux-ui.yaml

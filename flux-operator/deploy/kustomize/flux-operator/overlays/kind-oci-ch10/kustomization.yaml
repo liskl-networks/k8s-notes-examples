@@ -1,0 +1,14 @@
+# Chapter 10: the instance of overlays/kind-oci, synced to the hub kind-oci-ch10.
+# kubectl apply --server-side -k flux-operator/deploy/kustomize/flux-operator/overlays/kind-oci-ch10
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../kind-oci
+patches:
+  - target:
+      kind: FluxInstance
+      name: flux
+    patch: |
+      - op: replace
+        path: /spec/sync/path
+        value: flux-operator/deploy/kustomize/cluster-manifests/overlays/kind-oci-ch10

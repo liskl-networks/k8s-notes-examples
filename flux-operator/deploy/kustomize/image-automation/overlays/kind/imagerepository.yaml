@@ -1,0 +1,10 @@
+# Lists podinfo's image tags on ghcr.io every 10 minutes, anonymously. The default exclusion list drops
+# cosign's .sig tags.
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: podinfo-image
+  namespace: flux-system
+spec:
+  image: ghcr.io/stefanprodan/podinfo
+  interval: 10m

@@ -1,0 +1,8 @@
+# Chapter 10: image automation that writes back to this repo's main branch.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - gitrepository.yaml
+  - imagerepository.yaml
+  - imagepolicy.yaml
+  - imageupdateautomation.yaml

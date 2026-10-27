@@ -1,4 +1,4 @@
-# Chapter 11: chapter 9's hub plus an echo sink and notifications: an Alert out, a Receiver in.
+# Chapter 11: chapter 10's hub without its image automation, plus an echo sink and notifications.
 # One Flux Kustomization a file, the file named after metadata.name. Order comes from dependsOn inside
 # each one, never from this list. Taking a line out of this list deletes what it deployed (prune: true).
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -10,5 +10,6 @@ resources:
   - gateway.yaml
   - podinfo.yaml
   - podinfo-auto.yaml
+  - podinfo-image.yaml
   - sink.yaml
   - notifications.yaml

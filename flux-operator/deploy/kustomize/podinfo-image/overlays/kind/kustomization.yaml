@@ -1,0 +1,10 @@
+# Chapter 10: the image tag below is the one line Flux's image automation edits. The comment after it is the
+# marker: <namespace>:<ImagePolicy name>:tag. Flux commits the change to this file and pushes it.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../bases/v1
+  - httproute.yaml
+images:
+  - name: ghcr.io/stefanprodan/podinfo
+    newTag: 6.15.0 # {"$imagepolicy": "flux-system:podinfo-image:tag"}
