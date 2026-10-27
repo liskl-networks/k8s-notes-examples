@@ -1,0 +1,10 @@
+# Chapter 6: v1 with ConfigMap one changed and ConfigMap two gone. With prune: true, auto-sync deletes two.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: sync-demo
+configMapGenerator:
+  - name: one
+    literals:
+      - "message=version two"
+generatorOptions:
+  disableNameSuffixHash: true

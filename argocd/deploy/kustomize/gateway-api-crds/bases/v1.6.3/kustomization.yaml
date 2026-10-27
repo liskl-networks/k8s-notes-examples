@@ -1,0 +1,7 @@
+# Gateway API v1.6.3, standard channel: the release's standard-install.yaml, unchanged (sha256 356c2b8e...7fe5),
+# the same file No. 00 applied by hand. Argo CD never puts a tracking annotation on a CRD and never deletes one,
+# and these are too big for a client-side apply: the Application that syncs them uses ServerSideApply=true.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - source/standard-install.yaml

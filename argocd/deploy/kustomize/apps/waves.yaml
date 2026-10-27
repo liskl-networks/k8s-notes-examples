@@ -1,0 +1,20 @@
+# Chapter 8: hooks and sync waves, synced by hand so the page can watch the order:
+#   argocd app sync waves     (and with --path argocd/deploy/kustomize/waves/overlays/fail, a failing hook)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: waves
+  namespace: argocd
+  labels:
+    k8s-notes.liskl.com/source: examples   # the OCI track's Component rewrites repoURL on these
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground   # deleting the app deletes what it made
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/waves/overlays/kind
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: waves

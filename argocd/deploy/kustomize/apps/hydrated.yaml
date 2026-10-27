@@ -1,0 +1,29 @@
+# Chapter 13: the Source Hydrator. Argo CD renders the dry source (Git, over HTTPS), commits the result to the
+# branch argocd-hydrated, and syncs from there. It pushes with a repository-write Secret and reads the branch
+# with a repository Secret, both for the SSH URL below, which the page makes by hand and never commits.
+# Needs argocd/overlays/kind-ch13 (the hydrator bundle), and argocd-server and the controller restarted after it.
+# On your fork, change liskl to your GitHub user in both URLs.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hydrated
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  project: default
+  sourceHydrator:
+    drySource:
+      repoURL: https://github.com/liskl/k8s-notes-examples.git
+      targetRevision: argocd-1.0
+      path: argocd/deploy/kustomize/hydrator/dry
+    syncSource:
+      repoURL: git@github.com:liskl/k8s-notes-examples.git   # the write Secret is found by this URL
+      targetBranch: argocd-hydrated
+      path: argocd/hydrated/welcome                        # never the branch's root
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: hydrated
+  syncPolicy:
+    automated:
+      prune: true

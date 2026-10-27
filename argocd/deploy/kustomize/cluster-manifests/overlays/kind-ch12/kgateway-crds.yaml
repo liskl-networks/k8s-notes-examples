@@ -1,0 +1,26 @@
+# No. 00's kgateway-crds release, as chapter 10 handed it over, now automated.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kgateway-crds
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+    argocd.argoproj.io/compare-options: ServerSideDiff=true   # with ServerSideApply=true, or defaulted fields read OutOfSync
+spec:
+  project: default
+  source:
+    repoURL: cr.kgateway.dev/kgateway-dev/charts   # no scheme: an OCI Helm repository, no Secret
+    chart: kgateway-crds
+    targetRevision: v2.4.6
+    helm:
+      releaseName: kgateway-crds   # No. 00's release name, so object names match
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kgateway-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true

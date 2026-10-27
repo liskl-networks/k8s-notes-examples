@@ -1,0 +1,15 @@
+# Chapter 13: chapter 12's hub plus the sink, notifications (argocd/overlays/kind-ch13) and welcome's
+# subscription. The kind-ch13 overlay is the hydrator bundle: restart argocd-server and the application
+# controller after it syncs.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - argocd.yaml
+  - gateway-api-crds.yaml
+  - kgateway-crds.yaml
+  - kgateway.yaml
+  - gateway.yaml
+  - podinfo.yaml
+  - welcome.yaml
+  - tenant-team-a.yaml
+  - sink.yaml

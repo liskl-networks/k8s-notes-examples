@@ -1,0 +1,25 @@
+# An Application subscribes with the annotation notifications.argoproj.io/subscribe.on-synced.sink: ""
+# oncePer sends once per revision, and a delivery that failed counts as sent too: to send it again, remove the
+# Application's notified.notifications.argoproj.io annotation.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+  service.webhook.sink: |
+    url: http://echo.sink.svc.cluster.local:8080
+    headers:
+      - name: Content-Type
+        value: application/json
+  template.app-synced: |
+    webhook:
+      sink:
+        method: POST   # a webhook template sends GET unless it says otherwise
+        path: /argocd
+        body: |
+          {"app": "{{.app.metadata.name}}", "revision": "{{.app.status.sync.revision}}", "phase": "{{.app.status.operationState.phase}}"}
+  trigger.on-synced: |
+    - when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded']
+      oncePer: app.status.operationState?.syncResult?.revision
+      send: [app-synced]

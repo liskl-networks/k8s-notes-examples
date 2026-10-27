@@ -1,0 +1,7 @@
+# Deleting or pruning this Namespace would delete Argo CD and everything it keeps: never.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false,Prune=false

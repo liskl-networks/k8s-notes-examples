@@ -1,0 +1,8 @@
+# Wave -1 on paper. Argo CD moves a Namespace before the first task inside it and gives it that task's phase and
+# wave, so the PreSync Job below pulls it into PreSync.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: waves
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"

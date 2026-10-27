@@ -1,0 +1,22 @@
+# Chapter 6, OCI track: the root Application, one per lab, applied by hand at the start of the chapter:
+#   kubectl apply -f argocd/deploy/kustomize/roots/oci/kind-ch06.yaml
+# It syncs the chapter's hub, one child Application a file. No finalizer: deleting the root leaves everything
+# it made. roots/git/kind-ch06.yaml is the same Application on the other track.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: oci://ghcr.io/liskl/k8s-notes-examples/argocd
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/cluster-manifests/overlays/kind-oci-ch06
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

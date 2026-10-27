@@ -1,0 +1,9 @@
+# Chapter 8: the same shape on the lab's real class. A new Gateway starts at the CRD's default status (Accepted
+# Unknown, Pending) until kgateway writes its own, and chapter 8's check calls that Degraded: this checks the
+# sync still passes on a working class.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gw-health
+resources:
+  - gateway.yaml
+  - after.yaml

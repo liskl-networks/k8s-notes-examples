@@ -1,0 +1,4 @@
+# Chapter 6: renders nothing at all. With prune: true and no allowEmpty, auto-sync refuses to wipe the app out.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources: []

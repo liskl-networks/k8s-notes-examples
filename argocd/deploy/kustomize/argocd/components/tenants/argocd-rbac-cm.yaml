@@ -1,0 +1,13 @@
+# No policy.default: alice sees only what these lines give her. argocd app get also reads the app's project
+# (for its sync windows), so she needs projects, get on team-a as well.
+# Test a line offline: argocd admin settings rbac can alice sync applications 'team-a/x' --policy-file <file>
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+data:
+  policy.csv: |
+    p, alice, applications, get, team-a/*, allow
+    p, alice, applications, sync, team-a/*, allow
+    p, alice, projects, get, team-a, allow

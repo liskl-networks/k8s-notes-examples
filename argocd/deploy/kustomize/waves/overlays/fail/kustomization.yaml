@@ -1,0 +1,13 @@
+# Chapter 8: the same app with a PreSync hook that fails. Nothing after it runs except the SyncFail hook.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../bases/v1
+patches:
+  - target:
+      kind: Job
+      name: migrate
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/command
+        value: ["sh", "-c", "echo migrating; sleep 3; echo the migration failed; exit 1"]

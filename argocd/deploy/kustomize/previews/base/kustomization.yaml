@@ -1,0 +1,10 @@
+# Chapter 11: what a pull request preview deploys, read at the pull request's head commit. The capture opens a
+# pull request that changes the message below, waits for preview-<number>, then closes it.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configMapGenerator:
+  - name: preview
+    literals:
+      - "message=the main branch"
+generatorOptions:
+  disableNameSuffixHash: true

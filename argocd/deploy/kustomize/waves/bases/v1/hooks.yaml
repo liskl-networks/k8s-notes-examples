@@ -1,0 +1,55 @@
+# Hooks run outside the waves: PreSync before wave -1, PostSync after the last wave is Healthy, SyncFail only when
+# the sync fails. Each is a Job on the podinfo image, which every lab node has already pulled.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate
+  namespace: waves
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrate
+          image: ghcr.io/stefanprodan/podinfo:6.15.0
+          command: ["sh", "-c", "echo migrating; sleep 3; echo done"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: smoke
+  namespace: waves
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: smoke
+          image: ghcr.io/stefanprodan/podinfo:6.15.0
+          command: ["sh", "-c", "curl -sf http://app.waves:9898/healthz && echo app answers"]
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: on-fail
+  namespace: waves
+  annotations:
+    argocd.argoproj.io/hook: SyncFail
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: on-fail
+          image: ghcr.io/stefanprodan/podinfo:6.15.0
+          command: ["sh", "-c", "echo the sync failed, tidying up"]

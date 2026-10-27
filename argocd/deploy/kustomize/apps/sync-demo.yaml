@@ -1,0 +1,25 @@
+# Chapter 6: automated sync with prune, and no selfHeal. The chapter makes new revisions by changing the path:
+#   argocd app set sync-demo --path argocd/deploy/kustomize/sync-demo/overlays/v2    (broken, empty)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sync-demo
+  namespace: argocd
+  labels:
+    k8s-notes.liskl.com/source: examples   # the OCI track's Component rewrites repoURL on these
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground   # deleting the app deletes what it made
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/sync-demo/overlays/v1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: sync-demo
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,23 @@
+# Chapter 13: where notifications land. kubectl -n sink logs deploy/echo
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sink
+  namespace: argocd
+  labels:
+    k8s-notes.liskl.com/source: examples   # the OCI track's Component rewrites repoURL on these
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground   # deleting the app deletes what it made
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-1.0
+    path: argocd/deploy/kustomize/sink/overlays/kind
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: sink
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
