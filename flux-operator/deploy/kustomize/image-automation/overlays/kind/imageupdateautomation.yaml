@@ -21,9 +21,11 @@ spec:
       messageTemplate: |
         flux-operator: podinfo-image, by Flux's image automation
 
-        {{ range $resource, $changes := .Changed.Objects -}}
+        {{ range $file, $objects := .Changed.FileChanges -}}
+        {{ range $_, $changes := $objects -}}
         {{ range $_, $change := $changes -}}
-        {{ $resource.Kind }}/{{ $resource.Name }}: {{ $change.OldValue }} -> {{ $change.NewValue }}
+        {{ $file }}: {{ $change.OldValue }} -> {{ $change.NewValue }}
+        {{ end -}}
         {{ end -}}
         {{ end -}}
     push:
