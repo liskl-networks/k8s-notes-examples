@@ -12,4 +12,4 @@ spec:
           image-updater: demo-set
       images:
         - alias: demo
-          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.x
+          imageName: ghcr.io/liskl-networks/k8s-notes-examples/image-updater-demo:1.x

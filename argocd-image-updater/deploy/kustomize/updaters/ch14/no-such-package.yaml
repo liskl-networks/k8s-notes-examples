@@ -9,6 +9,6 @@ spec:
     - namePattern: demo
       images:
         - alias: demo
-          imageName: ghcr.io/liskl/k8s-notes-examples/nope:1.x
+          imageName: ghcr.io/liskl-networks/k8s-notes-examples/nope:1.x
           commonUpdateSettings:
             forceUpdate: true

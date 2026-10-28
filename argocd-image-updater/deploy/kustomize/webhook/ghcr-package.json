@@ -4,7 +4,7 @@
     "name": "k8s-notes-examples/image-updater-demo",
     "package_type": "container",
     "owner": {
-      "login": "liskl"
+      "login": "liskl-networks"
     },
     "package_version": {
       "container_metadata": {
