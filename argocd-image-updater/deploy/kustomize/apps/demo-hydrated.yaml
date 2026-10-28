@@ -1,0 +1,29 @@
+# The demo app through Argo CD's Source Hydrator: Argo CD renders the dry source (the lab branch, in your fork) and
+# commits the result to the branch argocd-image-updater-hydrated, then syncs from there. Image Updater v1.4.0 skips a
+# hydrated app whose drySource has no kustomize:, helm: or plugin: block (issue #1815); the chapter adds one.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-hydrated
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  project: default
+  sourceHydrator:
+    drySource:
+      repoURL: https://github.com/liskl/k8s-notes-examples.git
+      targetRevision: argocd-image-updater-lab
+      path: argocd-image-updater/deploy/kustomize/workloads/demo-set
+    syncSource:
+      repoURL: git@github.com:liskl/k8s-notes-examples.git   # the write Secret is found by this URL
+      targetBranch: argocd-image-updater-hydrated
+      path: argocd-image-updater/hydrated/demo                # never the branch's root
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-hydrated
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
