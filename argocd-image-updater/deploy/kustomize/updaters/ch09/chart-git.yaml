@@ -1,4 +1,5 @@
-# The git write-back into the values file (the chart comes from an OCI Helm repository, so name the Git repository).
+# The git write-back into the values file (the chart comes from an OCI Helm repository, so name the Git
+# repository).
 apiVersion: argocd-image-updater.argoproj.io/v1alpha1
 kind: ImageUpdater
 metadata:

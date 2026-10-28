@@ -1,5 +1,6 @@
-# The demo app: the book's own image, which answers "demo <tag>". Image Updater moves this tag in the chapters.
-# It runs on one worker, lab-worker2, so the chapter on rebuilt tags can show what that node has cached.
+# The demo app: the book's own image, which answers "demo <tag>". Image Updater moves this tag in the
+# chapters. It runs on one worker, lab-worker2, so the chapter on rebuilt tags can show what that node has
+# cached.
 apiVersion: apps/v1
 kind: Deployment
 metadata:

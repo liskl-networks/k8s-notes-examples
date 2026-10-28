@@ -1,6 +1,7 @@
-# The demo app through Argo CD's Source Hydrator: Argo CD renders the dry source (the lab branch, in your fork) and
-# commits the result to the branch argocd-image-updater-hydrated, then syncs from there. Image Updater v1.4.0 skips a
-# hydrated app whose drySource has no kustomize:, helm: or plugin: block (issue #1815); the chapter adds one.
+# The demo app through Argo CD's Source Hydrator: Argo CD renders the dry source (the lab branch, in your
+# fork) and commits the result to the branch argocd-image-updater-hydrated, then syncs from there. Image
+# Updater v1.4.0 skips a hydrated app whose drySource has no kustomize:, helm: or plugin: block (issue #1815);
+# the chapter adds one.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

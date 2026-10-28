@@ -1,6 +1,6 @@
-# The lab's settings (overlays/kind) plus a registries.conf: one entry for ghcr.io, with a rate limit of its own. The
-# controller reads the file once, when it starts, so restart it after a change. A key the file does not know stops it
-# from starting at all: the parser is strict.
+# The lab's settings (overlays/kind) plus a registries.conf: one entry for ghcr.io, with a rate limit of its
+# own. The controller reads the file once, when it starts, so restart it after a change. A key the file does
+# not know stops it from starting at all: the parser is strict.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:

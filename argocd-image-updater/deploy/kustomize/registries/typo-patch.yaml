@@ -1,5 +1,6 @@
-# A registries.conf with a key the parser does not know (it is limit), for a live test: Git holds no registries.conf
-# yet, so Argo CD leaves the key alone. Take it out again with the json patch the chapter shows.
+# A registries.conf with a key the parser does not know (it is limit), for a live test: Git holds no
+# registries.conf yet, so Argo CD leaves the key alone. Take it out again with the json patch the chapter
+# shows.
 data:
   registries.conf: |
     registries:

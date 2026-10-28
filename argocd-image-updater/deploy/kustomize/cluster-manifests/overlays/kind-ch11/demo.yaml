@@ -1,5 +1,5 @@
-# The demo app, from this book's folder on the lab branch. Its Git copy sets no kustomize.images: Image Updater's
-# argocd write-back adds that field, and the root's diff leaves a field Git never held alone.
+# The demo app, from this book's folder on the lab branch. Its Git copy sets no kustomize.images: Image
+# Updater's argocd write-back adds that field, and the root's diff leaves a field Git never held alone.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

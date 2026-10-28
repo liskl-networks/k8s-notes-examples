@@ -1,4 +1,5 @@
-# The same ApplicationSet with the fix: it leaves alone the one field Image Updater's argocd write-back writes.
+# The same ApplicationSet with the fix: it leaves alone the one field Image Updater's argocd write-back
+# writes.
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:

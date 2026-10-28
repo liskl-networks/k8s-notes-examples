@@ -1,13 +1,15 @@
-# Publishes a new tag of Field Guide 03's demo image, ghcr.io/<owner>/k8s-notes-examples/image-updater-demo, for Argo CD
-# Image Updater to find. Run it by hand, with the tag to publish:
+# Publishes a new tag of Field Guide 03's demo image, ghcr.io/<owner>/k8s-notes-examples/image-updater-demo,
+# for Argo CD Image Updater to find. Run it by hand, with the tag to publish:
 #
 #   gh workflow run argocd-image-updater-demo-image.yaml -R <owner>/k8s-notes-examples -f tag=1.1.0
-#   gh workflow run argocd-image-updater-demo-image.yaml -R <owner>/k8s-notes-examples -f tag=1.1.1 -f also_tag=stable
+#   gh workflow run argocd-image-updater-demo-image.yaml -R <owner>/k8s-notes-examples \
+#     -f tag=1.1.1 -f also_tag=stable
 #
-# Each run builds the image again for linux/amd64 and linux/arm64, so every tag is its own build: its own digest and its
-# own creation time. also_tag puts a second, moving tag on the same build (the digest strategy watches one like it).
-# Running it again with a tag that already exists rebuilds that tag too: a "pinned" tag that moved.
-# A reader runs it in their own fork; the package then lands under their own name, public if the fork is public.
+# Each run builds the image again for linux/amd64 and linux/arm64, so every tag is its own build: its own
+# digest and its own creation time. also_tag puts a second, moving tag on the same build (the digest strategy
+# watches one like it). Running it again with a tag that already exists rebuilds that tag too: a "pinned" tag
+# that moved. A reader runs it in their own fork; the package then lands under their own name, public if the
+# fork is public.
 name: argocd-image-updater-demo-image
 on:
   workflow_dispatch:

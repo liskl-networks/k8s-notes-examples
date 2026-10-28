@@ -1,5 +1,5 @@
-# The lab's settings, in the ConfigMap the release ships empty: a check every minute (the default is 2m; below 1m the
-# controller warns), info logs, and a commit author the reader can recognise in git log.
+# The lab's settings, in the ConfigMap the release ships empty: a check every minute (the default is 2m; below
+# 1m the controller warns), info logs, and a commit author the reader can recognise in git log.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:

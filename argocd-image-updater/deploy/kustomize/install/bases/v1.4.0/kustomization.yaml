@@ -1,8 +1,8 @@
-# Argo CD Image Updater v1.4.0 as its release made it: source/install.yaml is config/install.yaml at the tag v1.4.0,
-# byte for byte (sha256 def04f52cb940da4fb4799630c1ace964902c0f3b97d57b382ff3e6577ae7044), from
+# Argo CD Image Updater v1.4.0 as its release made it: source/install.yaml is config/install.yaml at the tag
+# v1.4.0, byte for byte (sha256 def04f52cb940da4fb4799630c1ace964902c0f3b97d57b382ff3e6577ae7044), from
 # https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/v1.4.0/config/install.yaml
-# The file names no namespace for its objects. It belongs beside Argo CD (its two ClusterRoleBindings already name
-# argocd), so this base puts it there.
+# The file names no namespace for its objects. It belongs beside Argo CD (its two ClusterRoleBindings already
+# name argocd), so this base puts it there.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: argocd
