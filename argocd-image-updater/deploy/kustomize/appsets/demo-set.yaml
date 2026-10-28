@@ -1,0 +1,34 @@
+# Two copies of the demo app, made by an ApplicationSet from a list. The ApplicationSet controller keeps each
+# Application exactly as its template says, so it takes back a field Image Updater's argocd write-back adds.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: demo-set
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          - name: a
+          - name: b
+  template:
+    metadata:
+      name: 'demo-{{.name}}'
+      labels:
+        image-updater: demo-set
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/liskl/k8s-notes-examples.git
+        targetRevision: argocd-image-updater-1.0
+        path: argocd-image-updater/deploy/kustomize/workloads/demo-set
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'demo-{{.name}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

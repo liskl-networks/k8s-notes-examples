@@ -1,0 +1,36 @@
+# The same ApplicationSet with the fix: it leaves alone the one field Image Updater's argocd write-back writes.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: demo-set
+  namespace: argocd
+spec:
+  goTemplate: true
+  ignoreApplicationDifferences:
+    - jsonPointers:
+        - /spec/source/kustomize/images
+  generators:
+    - list:
+        elements:
+          - name: a
+          - name: b
+  template:
+    metadata:
+      name: 'demo-{{.name}}'
+      labels:
+        image-updater: demo-set
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/liskl/k8s-notes-examples.git
+        targetRevision: argocd-image-updater-1.0
+        path: argocd-image-updater/deploy/kustomize/workloads/demo-set
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'demo-{{.name}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

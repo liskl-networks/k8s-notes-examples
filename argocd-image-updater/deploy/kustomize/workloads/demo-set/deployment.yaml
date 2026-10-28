@@ -1,0 +1,20 @@
+# The demo app without a namespace of its own, so an ApplicationSet can make one copy per namespace.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: demo}
+  template:
+    metadata:
+      labels: {app: demo}
+    spec:
+      containers:
+        - name: demo
+          image: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.0.0
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            tcpSocket: {port: 8080}
