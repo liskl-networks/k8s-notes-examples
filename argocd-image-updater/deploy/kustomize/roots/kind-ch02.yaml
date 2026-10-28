@@ -1,0 +1,21 @@
+# This book's root: an app of apps for its own Applications only, beside Field Guide 02's root (which keeps Argo CD,
+# the Gateway, kgateway, podinfo and welcome). It follows the lab branch argocd-image-updater-lab, the branch Image
+# Updater writes to in the git write-back chapters. Each chapter moves it to that chapter's hub.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iu-root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-image-updater-lab
+    path: argocd-image-updater/deploy/kustomize/cluster-manifests/overlays/kind-ch02
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
