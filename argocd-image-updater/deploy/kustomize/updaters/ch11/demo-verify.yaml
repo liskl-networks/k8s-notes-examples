@@ -1,0 +1,18 @@
+# Signature checks on the demo image: a cosign public key, from a Secret in the CR's namespace. Before it writes a
+# tag, the updater looks for that tag's cosign signature. The book's image is not signed, so the check fails and
+# nothing is written.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: demo
+  namespace: argocd
+spec:
+  imagesVerification:
+    cosignKey:
+      secretName: iu-cosign
+      key: cosign.pub
+  applicationRefs:
+    - namePattern: demo
+      images:
+        - alias: demo
+          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.x
