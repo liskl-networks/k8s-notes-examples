@@ -1,0 +1,15 @@
+# One updater for every app an ApplicationSet makes: a name glob and a label.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: demo-set
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: "demo-*"
+      labelSelectors:
+        matchLabels:
+          image-updater: demo-set
+      images:
+        - alias: demo
+          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.x

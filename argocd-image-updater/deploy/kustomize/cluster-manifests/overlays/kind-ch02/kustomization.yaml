@@ -1,0 +1,6 @@
+# Chapter 2's hub: what iu-root keeps on the lab. Field Guide 02's root keeps its own apps; this book adds its
+# own beside them and never touches theirs.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - iu-install.yaml

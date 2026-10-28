@@ -1,0 +1,26 @@
+# The demo app with its image pinned in Git: kustomize.images is the field Image Updater's argocd write-back
+# writes. Now the root holds that field too, so the root sees the updater's write as drift and selfHeal puts
+# Git's value back.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-image-updater-1.0
+    path: argocd-image-updater/deploy/kustomize/workloads/demo/overlays/kind
+    kustomize:
+      images:
+        - ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.0.0
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,12 @@
+# A constraint no tag matches.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: podinfo
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: podinfo
+      images:
+        - alias: podinfo
+          imageName: ghcr.io/stefanprodan/podinfo:7.x

@@ -1,0 +1,21 @@
+# Pull request mode: HTTPS and a token (SSH cannot open a pull request).
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: demo
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: git:secret:argocd/iu-github-pat
+    gitConfig:
+      repository: https://github.com/liskl/k8s-notes-examples.git
+      branch: argocd-image-updater-lab
+      pullRequest:
+        github: {}
+        labels:
+          - image-updater
+  applicationRefs:
+    - namePattern: demo
+      images:
+        - alias: demo
+          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.x

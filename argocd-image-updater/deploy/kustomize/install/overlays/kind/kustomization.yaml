@@ -1,0 +1,18 @@
+# The lab's settings, in the ConfigMap the release ships empty: a check every minute (the default is 2m; below
+# 1m the controller warns), info logs, and a commit author the reader can recognise in git log.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../bases/v1.4.0
+patches:
+  - target:
+      kind: ConfigMap
+      name: argocd-image-updater-config
+    patch: |
+      - op: add
+        path: /data
+        value:
+          interval: 1m
+          log.level: info
+          git.user: image-updater-lab
+          git.email: image-updater-lab@users.noreply.github.com

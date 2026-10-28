@@ -1,0 +1,12 @@
+# The hydrated app, argocd write-back.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: hydrated
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: demo-hydrated
+      images:
+        - alias: demo
+          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.x

@@ -1,0 +1,9 @@
+# Values for podinfo's own Helm chart (ghcr.io/stefanprodan/charts/podinfo), the chart app's second source.
+# The chart reads the image from image.repository and image.tag; Image Updater's helmvalues: target writes
+# image.tag here.
+replicaCount: 1
+image:
+  repository: ghcr.io/stefanprodan/podinfo
+  tag: 6.15.0
+ui:
+  message: "Helm rendered this, and Image Updater picks its tag."

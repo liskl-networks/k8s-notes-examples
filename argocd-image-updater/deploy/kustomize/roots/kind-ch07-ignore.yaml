@@ -1,0 +1,31 @@
+# Chapter 7's root with the fix: it ignores the one field Image Updater writes on the demo app, and
+# RespectIgnoreDifferences=true keeps the sync from applying Git's value over it.
+# This book's root: an app of apps for its own Applications only, beside Field Guide 02's root (which keeps
+# Argo CD, the Gateway, kgateway, podinfo and welcome). Through chapter 7 it follows this book's tag,
+# read-only: no fork needed. Each chapter moves it to that chapter's hub.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iu-root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-image-updater-1.0
+    path: argocd-image-updater/deploy/kustomize/cluster-manifests/overlays/kind-ch07
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  ignoreDifferences:
+    - group: argoproj.io
+      kind: Application
+      name: demo
+      jsonPointers:
+        - /spec/source/kustomize/images
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
