@@ -1,0 +1,31 @@
+# podinfo through its own Helm chart: two sources, the chart from ghcr.io and the values file from this book's
+# folder on the lab branch (in your fork), which the helmvalues: write-back target edits.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chart
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  sources:
+    - repoURL: ghcr.io/stefanprodan/charts
+      chart: podinfo
+      targetRevision: 6.15.0
+      helm:
+        releaseName: chart
+        valueFiles:
+          - $values/argocd-image-updater/deploy/kustomize/workloads/chart/values/kind.yaml
+    - repoURL: https://github.com/liskl/k8s-notes-examples.git
+      targetRevision: argocd-image-updater-lab
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: chart
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

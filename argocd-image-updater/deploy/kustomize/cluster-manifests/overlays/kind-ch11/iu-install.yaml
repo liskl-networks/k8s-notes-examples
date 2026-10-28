@@ -1,0 +1,22 @@
+# Image Updater, installed and kept by Argo CD: the vendored v1.4.0 install.yaml with the lab's settings and a
+# registries.conf (chapter 11).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iu-install
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    targetRevision: argocd-image-updater-1.0
+    path: argocd-image-updater/deploy/kustomize/install/overlays/kind-registries
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
