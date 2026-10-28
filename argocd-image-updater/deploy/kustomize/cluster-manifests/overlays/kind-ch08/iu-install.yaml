@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/liskl/k8s-notes-examples.git
-    targetRevision: argocd-image-updater-lab
+    targetRevision: argocd-image-updater-1.0
     path: argocd-image-updater/deploy/kustomize/install/overlays/kind
   destination:
     server: https://kubernetes.default.svc
