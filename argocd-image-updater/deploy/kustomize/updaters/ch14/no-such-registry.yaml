@@ -1,0 +1,14 @@
+# A registry that does not resolve.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: gallery
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: demo
+      images:
+        - alias: demo
+          imageName: nope.invalid/demo/app:1.x
+          commonUpdateSettings:
+            forceUpdate: true

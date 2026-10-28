@@ -1,0 +1,19 @@
+# SSH credentials in pull request mode.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: gallery
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: git:secret:argocd/iu-git-ssh
+    gitConfig:
+      repository: git@github.com:liskl/k8s-notes-examples.git
+      branch: argocd-image-updater-lab
+      pullRequest:
+        github: {}
+  applicationRefs:
+    - namePattern: demo
+      images:
+        - alias: demo
+          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.x

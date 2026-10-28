@@ -1,0 +1,14 @@
+# A package that is private or does not exist (forceUpdate: the app does not run it).
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: gallery
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: demo
+      images:
+        - alias: demo
+          imageName: ghcr.io/liskl/k8s-notes-examples/nope:1.x
+          commonUpdateSettings:
+            forceUpdate: true
