@@ -1,0 +1,15 @@
+# newest-build reads each tag's build time; with no allowTags every tag counts, latest included.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: podinfo
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: podinfo
+      images:
+        - alias: podinfo
+          imageName: ghcr.io/stefanprodan/podinfo
+          commonUpdateSettings:
+            updateStrategy: newest-build
+            platforms: [linux/amd64, linux/arm64]

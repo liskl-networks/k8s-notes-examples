@@ -1,0 +1,12 @@
+# The chart app with no manifestTargets: the default parameter names image.name and image.tag.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: chart
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: chart
+      images:
+        - alias: podinfo
+          imageName: ghcr.io/stefanprodan/podinfo:6.16.x

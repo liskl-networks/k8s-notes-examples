@@ -1,0 +1,16 @@
+# The chart's own names: image.repository and image.tag.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: chart
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: chart
+      images:
+        - alias: podinfo
+          imageName: ghcr.io/stefanprodan/podinfo:6.x
+          manifestTargets:
+            helm:
+              name: image.repository
+              tag: image.tag

@@ -1,0 +1,22 @@
+# The git write-back into the values file (the chart comes from an OCI Helm repository, so name the Git repository).
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: chart
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: git:secret:argocd/iu-git-ssh
+    gitConfig:
+      repository: git@github.com:liskl/k8s-notes-examples.git
+      branch: argocd-image-updater-lab
+      writeBackTarget: helmvalues:/argocd-image-updater/deploy/kustomize/workloads/chart/values/kind.yaml
+  applicationRefs:
+    - namePattern: chart
+      images:
+        - alias: podinfo
+          imageName: ghcr.io/stefanprodan/podinfo:6.16.x
+          manifestTargets:
+            helm:
+              name: image.repository
+              tag: image.tag

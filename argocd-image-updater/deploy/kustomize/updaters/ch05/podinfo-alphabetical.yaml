@@ -1,0 +1,15 @@
+# alphabetical sorts tags as text: 6.9.4 comes after 6.17.0.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: podinfo
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: podinfo
+      images:
+        - alias: podinfo
+          imageName: ghcr.io/stefanprodan/podinfo:6.x
+          commonUpdateSettings:
+            updateStrategy: alphabetical
+            allowTags: 'regexp:^6\.'

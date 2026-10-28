@@ -1,0 +1,12 @@
+# The demo app: the newest 1.y.z of the book's own image.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: demo
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: demo
+      images:
+        - alias: demo
+          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.x

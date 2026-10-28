@@ -1,0 +1,12 @@
+# Field Guide 02's podinfo app: the newest 6.16 patch. No writeBackConfig, so the argocd write-back.
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: podinfo
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: podinfo
+      images:
+        - alias: podinfo
+          imageName: ghcr.io/stefanprodan/podinfo:6.16.x
