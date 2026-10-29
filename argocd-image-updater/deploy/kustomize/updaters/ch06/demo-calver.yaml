@@ -9,6 +9,6 @@ spec:
     - namePattern: demo
       images:
         - alias: demo
-          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:YYYY.0M.0D
+          imageName: ghcr.io/liskl-networks/k8s-notes-examples/image-updater-demo:YYYY.0M.0D
           commonUpdateSettings:
             updateStrategy: calver
