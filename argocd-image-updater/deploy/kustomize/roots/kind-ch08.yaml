@@ -1,7 +1,7 @@
 # This book's root: an app of apps for its own Applications only, beside Field Guide 02's root (which keeps
 # Argo CD, the Gateway, kgateway, podinfo and welcome). From chapter 8 on, Image Updater writes to Git, so the
 # root and the apps it writes follow the branch argocd-image-updater-lab: in your own fork (make the branch
-# there from the tag argocd-image-updater-1.0 and change liskl to your GitHub user in repoURL).
+# there from the tag argocd-image-updater-1.0 and change liskl-networks to your GitHub user in repoURL).
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    repoURL: https://github.com/liskl-networks/k8s-notes-examples.git
     targetRevision: argocd-image-updater-lab
     path: argocd-image-updater/deploy/kustomize/cluster-manifests/overlays/kind-ch08
   destination:
