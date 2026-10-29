@@ -17,7 +17,7 @@ spec:
         releaseName: chart
         valueFiles:
           - $values/argocd-image-updater/deploy/kustomize/workloads/chart/values/kind.yaml
-    - repoURL: https://github.com/liskl/k8s-notes-examples.git
+    - repoURL: https://github.com/liskl-networks/k8s-notes-examples.git
       targetRevision: argocd-image-updater-lab
       ref: values
   destination:
