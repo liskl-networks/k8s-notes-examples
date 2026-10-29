@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/liskl/k8s-notes-examples.git
+    repoURL: https://github.com/liskl-networks/k8s-notes-examples.git
     targetRevision: argocd-image-updater-lab
     path: argocd-image-updater/deploy/kustomize/workloads/demo/overlays/kind
   destination:
