@@ -8,7 +8,7 @@ spec:
   writeBackConfig:
     method: git:secret:argocd/iu-github-pat
     gitConfig:
-      repository: https://github.com/liskl/k8s-notes-examples.git
+      repository: https://github.com/liskl-networks/k8s-notes-examples.git
       branch: argocd-image-updater-lab
       pullRequest:
         github: {}
@@ -18,4 +18,4 @@ spec:
     - namePattern: demo
       images:
         - alias: demo
-          imageName: ghcr.io/liskl/k8s-notes-examples/image-updater-demo:1.x
+          imageName: ghcr.io/liskl-networks/k8s-notes-examples/image-updater-demo:1.x

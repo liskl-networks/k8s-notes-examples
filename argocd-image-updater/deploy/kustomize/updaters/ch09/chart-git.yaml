@@ -9,7 +9,7 @@ spec:
   writeBackConfig:
     method: git:secret:argocd/iu-git-ssh
     gitConfig:
-      repository: git@github.com:liskl/k8s-notes-examples.git
+      repository: git@github.com:liskl-networks/k8s-notes-examples.git
       branch: argocd-image-updater-lab
       writeBackTarget: helmvalues:/argocd-image-updater/deploy/kustomize/workloads/chart/values/kind.yaml
   applicationRefs:
